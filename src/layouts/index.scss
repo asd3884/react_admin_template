@@ -1,0 +1,18 @@
+
+.layout_container{
+  height: 100vh;
+  width:100%;
+  background-color: #e4e7ed ;
+  .ant-layout-header{
+    height: $base_tab_height;
+    padding: 0 40px 0 20px;
+    background: none;
+    background-color: #ffff;
+    border-color: #f6f6f6;
+  }
+
+  .ant-card-body{
+     height: calc(100vh - $base_tab_height - 20px);
+  }
+}
+
