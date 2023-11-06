@@ -6,4 +6,10 @@ export default {
   home: {
     main: 'Home',
   },
+  user:{
+    main:'User',
+  },
+  role:{
+   main:'Role',
+  }
 }

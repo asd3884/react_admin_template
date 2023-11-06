@@ -1,14 +1,12 @@
 import { useTranslation } from "react-i18next";
-import React from 'react'
 
-const Home= ()=>{
+const Role= ()=>{
   const { t } = useTranslation();
-
   return (
     <>
-     <h2>{t("home.main")}</h2>
+     <h2>{t("role.main")}</h2>
     </>
   )
 }
 
-export default Home
+export default Role

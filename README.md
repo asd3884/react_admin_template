@@ -26,7 +26,27 @@ If you are developing a production application, we recommend updating the config
 - Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
 - Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
 
+
 ## 二、搭建后台管理系统模板
+
+
+项目参考：
+git clone https://github.com/HalseySpicy/Hooks-Admin.git
+
+### 项目功能
+
+- 🚀 采用最新技术找开发：React18、React-Router v6、React-Hooks、TypeScript、Vite2
+- 🚀 采用 Vite2 作为项目开发、打包工具（配置了 Gzip 打包、跨域代理、打包预览工具…）
+- 🚀 整个项目集成了 TypeScript （完全是为了想学习 🤣）
+- 🚀 使用 redux 做状态管理，集成 immer、react-redux、redux-persist 开发
+- 🚀 集成了两套状态管理，master 分支使用的是 redux || redux-toolkit 分支使用的是 redux-toolkit
+- 🚀 使用 TypeScript 对 Axios 二次封装 （错误拦截、常用请求封装、全局请求 Loading、取消重复请求…）
+- 🚀 支持 Antd 组件大小切换、暗黑 && 灰色 && 色弱模式、i18n 国际化（i18n 暂时没配置所有文件）
+- 🚀 使用 自定义高阶组件 进行路由权限拦截（403 页面）、页面按钮权限配置
+- 🚀 支持 React-Router v6 路由懒加载配置、菜单手风琴模式、无限级菜单、多标签页、面包屑导航
+- 🚀 使用 Prettier 统一格式化代码，集成 Eslint、Stylelint 代码校验规范（项目规范配置）
+- 🚀 使用 husky、lint-staged、commitlint、commitizen、cz-git 规范提交信息（项目规范配置）
+
 
 ### 2.1项目初始化
 
@@ -59,6 +79,7 @@ pnpm create vite
 
 创建的项目选择react 、ts
 进入到项目根目录pnpm install安装全部依赖.安装完依赖运行程序:pnpm run dev
+
 
 ### 2.2项目配置
 
@@ -136,7 +157,7 @@ module.exports = {
       'warn',
       { allowConstantExport: true },
     ],
-
+    
   },
 }
 
@@ -144,10 +165,11 @@ module.exports = {
 
 ##### 1.1vue3环境代码校验插件
 
+
 安装指令
 
 ```
-pnpm install -D  eslint-plugin-prettier eslint-config-prettier eslint-plugin-react eslint-plugin-react-hooks
+pnpm install -D  eslint-plugin-prettier eslint-config-prettier eslint-plugin-react eslint-plugin-react-hooks 
 ```
 
 ##### 1.2修改.eslintrc.cjs配置文件
@@ -547,11 +569,14 @@ if (!/pnpm/.test(process.env.npm_execpath || '')) {
 
 硅谷甄选运营平台,UI组件库采用的antd，因此需要集成antd插件！！！
 
+
 ```
 pnpm install antd
 ```
 
 **入口文件main.ts全局安装element-plus,element-plus默认支持语言英语设置为中文**
+
+
 
 ### 3.2src别名的配置
 
@@ -675,6 +700,8 @@ export default () => {
   }
 }
 ```
+
+
 
 ### 3.5集成sass
 
@@ -917,13 +944,16 @@ export default request
 
 ```
 
+
+
 ### 3.8API接口统一管理
 
 创建用户模块接口：
 api/user/index.ts
 
-### 4.路由配置
 
+
+### 4.路由配置
 安装路由依赖
 pnpm install react-router-dom
 
@@ -931,14 +961,14 @@ pnpm install react-router-dom
 包括：登录页(Login)、首页(Home)
 在根目录下创建router
 
-router/index.tsx
 
+router/index.tsx
 ```
 import { Navigate, useRoutes } from "react-router-dom";
 import { RouteObject } from "@/routers/interface";
 import Login from "@/views/Login/index";
 
-// * 导入所有router (批量导入)
+// * 导入所有router (批量导入) 
 const metaRouters = import.meta.globEager("./modules/*.tsx");
 
 // * 处理路由
@@ -982,6 +1012,7 @@ export default Router;
 
 如此配置后，我们的路由组件的访问的根路径/ 直接跳转到/login登录页
 
+
 在App跟组件中，使用路由组件
 
 ```
@@ -995,9 +1026,9 @@ import './App.scss'
 import {RemoveIcon, LoveIcon } from '@/components/IconImage'
 
 /**
- *
+ * 
  * react-router-dom V6中启用全局路由模式
- * 全局路由有常用两种路由模式可选：HashRouter 和 BrowserRouter
+ * 全局路由有常用两种路由模式可选：HashRouter 和 BrowserRouter 
  * 当前我们采用HashRouter
  */
 
@@ -1017,12 +1048,14 @@ export default App
 
 ### 完成登录页面的静态
 
+
 配置国际化
 pnpm install react-i18next -S
 
 pnpm install i18next -S
 
 pnpm install moment -S
+
 
 src目录下创建一个language文件夹配置国际化，包括如下
 language/modules/en.ts
@@ -1041,6 +1074,7 @@ export default {
 
 };
 ```
+
 
 ```
 /*
@@ -1088,7 +1122,6 @@ export default i18n;
 ```
 
 在入口文件main.tsx中引入language
-
 ```
 import React from 'react'
 import ReactDOM from 'react-dom/client'
@@ -1097,7 +1130,6 @@ import "@/language/index"; //国际化
 ```
 
 在App根组件中使用
-
 ```
 //antd组件全局设置使用ConfigProvider
 import { ConfigProvider } from "antd";
@@ -1113,7 +1145,7 @@ function App() {
   const [i18nLocale, setI18nLocale] = useState(zhCN);
 
   return (
-    <HashRouter>
+    <HashRouter>  
       <!-- 全局设置国际化-->
       <ConfigProvider locale={i18nLocale}>
       <Router></Router>
@@ -1124,7 +1156,6 @@ function App() {
 ```
 
 封装的登录表单 LoginForm：
-
 ```
 import { useState } from "react";
 import { Button, Form, Input, message } from "antd";
@@ -1164,7 +1195,7 @@ const LoginForm = (props: any) => {
 				<Input.Password autoComplete="new-password" placeholder="密码：123456" prefix={<LockOutlined />} />
 			</Form.Item>
 			<Form.Item className="login_btn">
-         {/**
+         {/** 
 				<Button
 					onClick={() => {
 						form.resetFields();
@@ -1187,10 +1218,15 @@ export default LoginForm
 
 ## 配置服务器的跨域
 
-1.封装请求拦截器和响应拦截器：utils/request.ts文件2.配置跨域 vite.config.ts中跨域配置3.环境变量的配置
+
+1.封装请求拦截器和响应拦截器：utils/request.ts文件
+2.配置跨域 vite.config.ts中跨域配置
+3.环境变量的配置
+
+
+
 
 //utils/reauest.ts
-
 ```
 //进行axios二次封装:使用请求与响应拦截器
 import axios from 'axios'
@@ -1267,7 +1303,6 @@ export default request
 ```
 
 2.vite.config.ts中
-
 ```
       //代理跨域
     server: {
@@ -1286,7 +1321,6 @@ export default request
 
 环境变量的配置：
 .env.development 开发环境如下：
-
 ```
 # 本地环境
 NODE_ENV = 'development'
@@ -1298,8 +1332,9 @@ VITE_APP_BASE_API = '/dev-api'
 VITE_SERVE="http://gmall-h5-api.atguigu.cn"
 ```
 
-## login业务
 
+
+## login业务
 ```
 登录成功，路由跳转到首页
 //编程式路由跳转 使用useNavigate钩子函数
@@ -1308,22 +1343,24 @@ import { useNavigate } from "react-router-dom";
 
 const navigate = useNavigate();
 message.success("登录成功！")
-navigate(HOME_URL)
+navigate(HOME_URL) 
 ```
 
 ## Home 首页静态
 
-## 关于项目中的状态管理
 
+
+## 关于项目中的状态管理
 目前项目中的state状态管理分为：global、menu两个模块
 分别位于 store/modules/global、 store/modules/menu
 
 本项目中用到的关于redux的依赖包：
-"react-redux": "^8.0.2",
-"redux": "^4.2.0",
-"redux-persist": "^6.0.0",
-"redux-promise": "^0.6.0",
-"redux-thunk": "^2.4.1",
+	"react-redux": "^8.0.2",
+  "redux": "^4.2.0",
+  "redux-persist": "^6.0.0",
+  "redux-promise": "^0.6.0",
+  "redux-thunk": "^2.4.1",
+
 
 react-redux:redux与react的绑定库
 redux-persist:将redux的store中的数据自动缓存到浏览器的 localStorage 中
@@ -1339,7 +1376,6 @@ store/index.ts
 备注：整个项目中的state状态管理为 global、menu 。。。模块
 
 //store/index.ts代码如下
-
 ```
 import { legacy_createStore as createStore, combineReducers, Store, compose } from "redux";
 import { persistStore, persistReducer } from "redux-persist";
@@ -1376,7 +1412,6 @@ export { store, persistor };
 ```
 
 3.在main.ts入口文件中
-
 ```
 import { PersistGate } from "redux-persist/integration/react";
 import { Provider } from "react-redux";
@@ -1392,9 +1427,8 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
   </React.StrictMode>,
 )
 ```
-
-4.App根组件中使用connect
-connect 函数接收 mapStateProps 函数，获取 mapStateProps 返回的最终组合后的状态，然后将其注入到 App 组件中，返回一个新的组件，然后交给 export default 导出。
+4.App根组件中使用connect 
+  connect 函数接收 mapStateProps 函数，获取 mapStateProps 返回的最终组合后的状态，然后将其注入到 App 组件中，返回一个新的组件，然后交给 export default 导出。
 
 ```
 import { connect } from "react-redux";
@@ -1405,7 +1439,7 @@ const App = (props: any) => {
 
 //将export default App修改为
 //App中的state为store中的global全局模块
-const mapStateToProps = (state: any) => state.global;
+const mapStateToProps = (state: any) => state.global; 
 export default connect(mapStateToProps)(App);
 
 }
@@ -1414,15 +1448,20 @@ export default connect(mapStateToProps)(App);
 ok,自此redux构建完成，接下来编写各个模块的reducer、action
 
 ### reducer及action
-
 安装依赖 immer
-pnpm install immer@9.0.15 -S 1.在store目录下创建modules 2.创建menu菜单模块的状态管理 【目前确认为：global、menu两个模块的状态管理】
-modules/menu/action.ts
-modules/menu/reducer.ts
-3.store.index中添加菜单menu模块的reducer 4.组件中使用store中保存的状态
+pnpm install immer@9.0.15 -S
+1.在store目录下创建modules
+2.创建menu菜单模块的状态管理 【目前确认为：global、menu两个模块的状态管理】
+  modules/menu/action.ts
+  modules/menu/reducer.ts
+3.store.index中添加菜单menu模块的reducer
+4.组件中使用store中保存的状态
 
-操作如下：2. //modules/menu/action.ts 代码如下:
 
+
+
+操作如下：
+2. //modules/menu/action.ts 代码如下:
 ```
 import * as types from "@/store/mutation-types";
 
@@ -1433,6 +1472,7 @@ export const updateCollapse = (isCollapse: boolean) => ({
 });
 
 ```
+
 
 2. // modules/menu/reducer.ts代码如下
 
@@ -1466,8 +1506,9 @@ export default menu;
 
 ```
 
-3. //store/index.ts添加menu的reducer
 
+
+3. //store/index.ts添加menu的reducer
 ```
 import menu from '@/store/modules/menu/reducer'
 
@@ -1477,8 +1518,10 @@ const reducer = combineReducers({
 });
 ```
 
-4. //组件中使用store中保存的isCollapse的state状态
 
+
+
+4. //组件中使用store中保存的isCollapse的state状态
 ```
 import { connect } from "react-redux";
 import { updadteCollapse } from "@/store/modules/menu/action";
@@ -1502,7 +1545,7 @@ const {isCollapse, updateCollapse}= props //redux中的状态可以从props中�
 
 
 //connect提供的mapStateToProps，
-const mapStateToProps = (state: any) => state.menu;
+const mapStateToProps = (state: any) => state.menu; 
 
 //connect提供的mapDispatchToProps
 const mapDispatchToProps = { updateCollapse };
@@ -1513,14 +1556,16 @@ export default connect(mapStateToProps, mapDispatchToProps)(CollapseIcon);
 ```
 
 ## 结合antd 完成LayoutHeader组件的开发
-
 antd 开发手册：
 https://ant-design-3x.gitee.io/docs/react/introduce-cn
 
 项目中icon图标的设置
 
-### 菜单路由的递归获取：
 
+
+
+
+### 菜单路由的递归获取：
 ```
 
 [{
@@ -1604,8 +1649,9 @@ https://ant-design-3x.gitee.io/docs/react/introduce-cn
 }]
 ```
 
-以上的数据格式变为：
 
+
+以上的数据格式变为：
 ```
 [{
   element: <LayoutIndex />,
@@ -1677,8 +1723,9 @@ https://ant-design-3x.gitee.io/docs/react/introduce-cn
 }]
 ```
 
-代码实现：
 
+
+代码实现：
 ```
 mapTree(org=>{
   haveChild = Array.isArray(org.children) && org.children.length>0
@@ -1697,6 +1744,249 @@ const menuArray:RouteObject[] = menuList.map(item=> mapTree(item))
 ```
 
 参考：https://blog.csdn.net/weixin_42217154/article/details/116142608
+
+
+
+### 左侧菜单栏的静态实现
+
+参考antd的layout 布局组件：
+```
+import { UploadOutlined, UserOutlined, VideoCameraOutlined } from '@ant-design/icons';
+import { Layout, Menu, theme } from 'antd';
+
+<Menu
+  theme="dark"
+  mode="inline"
+  defaultSelectedKeys={['4']}
+  items={[UserOutlined, VideoCameraOutlined, UploadOutlined, UserOutlined].map(
+    (icon, index) => ({
+      key: String(index + 1),
+      icon: React.createElement(icon),
+      label: `nav ${index + 1}`,
+    }),
+  )}
+/>
+```
+
+
+可知<Menu> 菜单组件的items属性表示：菜单内容
+将菜单组件封装一下：
+
+```
+import React from "react";
+import { useTranslation } from "react-i18next";
+import { connect } from "react-redux";
+import { updateCollapse } from "@/store/modules/global/action";
+import './index.scss'
+import { UploadOutlined, UserOutlined, VideoCameraOutlined } from '@ant-design/icons';
+import { Layout, Menu, theme } from 'antd';
+import type { MenuProps } from 'antd';
+
+//定义类型
+type MenuItem = Required<MenuProps>['items'][number];
+
+function getItem(
+  label: React.ReactNode,
+  key?: React.Key | null,
+  icon?: React.ReactNode,
+  children?: MenuItem[],
+  type?: 'group',
+): MenuItem {
+  return {
+    key,
+    icon,
+    children,
+    label,
+    type,
+  } as MenuItem;
+}
+
+const items: MenuItem[] = [
+  getItem('Navigation One', 'sub1', <UploadOutlined />, [
+    getItem('Option 1', '1'),
+    getItem('Option 2', '2'),
+    getItem('Option 3', '3'),
+    getItem('Option 4', '4'),
+  ]),
+
+  getItem('Navigation Two', 'sub2', <UserOutlined />, [
+    getItem('Option 5', '5'),
+    getItem('Option 6', '6'),
+    getItem('Submenu', 'sub3', null, [getItem('Option 7', '7'), getItem('Option 8', '8')]),
+  ]),
+
+  getItem('Navigation Three', 'sub4', <VideoCameraOutlined />, [
+    getItem('Option 9', '9'),
+    getItem('Option 10', '10'),
+    getItem('Option 11', '11'),
+    getItem('Option 12', '12'),
+  ]),
+];
+
+const LayoutMenu =(props:any)=>{
+  const { t } = useTranslation();
+  const { SubMenu } = Menu;
+  const {isCollapse}= props
+
+  return (
+
+      <Menu
+          theme="dark"
+          mode="inline"
+          defaultSelectedKeys={['4']}
+          items={items}
+        />   
+  )
+
+}
+
+const mapStateToProps = (state: any) => state.global;
+const mapDispatchToProps = { updateCollapse };
+export default connect(mapStateToProps, mapDispatchToProps)(LayoutMenu);
+```
+
+
+给<Menu>组件添加一个点击事件
+
+```
+
+ const  menuClick=(e:{key:string})=>{
+  console.log("点击了",e.key)
+ }
+
+<Menu
+          theme="dark"
+          mode="inline"
+          defaultSelectedKeys={['4']}
+          items={items}
+          onClick={menuClick}
+        />   
+
+从点击的第二个参数key可以得知，这里可以放置组件的path路径，点击进行跳转
+
+
+点击跳转，编程式导航
+
+//路由跳转用到的hook
+import { useNavigate } from 'react-router-dom'
+
+//将item中的key设置为路由的路径，实现跳转
+const items: MenuItem[] = [
+  getItem('Navigation One', 'sub1', <UploadOutlined />, [
+    getItem('Option 1', '/login'),
+    getItem('Option 2', '/home/index'),
+    getItem('Option 3', '/'),
+   
+  ]),
+
+];
+
+const LayoutMenu =(props:any)=>{
+  const { t } = useTranslation();
+  const { SubMenu } = Menu;
+  const {isCollapse}= props
+  const navigateTo = useNavigate()
+  
+  const  menuClick=(e:{key:string})=>{
+    console.log("点击了",e.key)
+
+  //点击跳转到对应的路由 ，编程式导航跳转，利用到一个hook
+    navigateTo(e.key) //跳转
+
+ }
+
+   return (
+      <Menu
+          theme="dark"
+          mode="inline"
+          defaultSelectedKeys={['4']}
+          items={items}
+          onClick={menuClick}
+        /> 
+  )
+
+}
+```
+
+### 改造menu组件，当前只能同时打开一个subMenu子菜单
+当打开第二个折叠菜单时，上一个需要关闭
+
+```
+const items: MenuItem[] = [
+  getItem('Navigation One', 'sub1', <UploadOutlined />, [
+    getItem('Option 1', '/login'),
+    getItem('Option 2', '/home/index'),
+    getItem('Option 3', '/'),
+    getItem('Option 4', '4'),
+  ]),
+
+  getItem('Navigation Two', 'sub2', <UserOutlined />, [
+    getItem('Option 5', '5'),
+    getItem('Option 6', '6'),
+    getItem('Submenu', 'sub3', null, [getItem('Option 7', '7'), getItem('Option 8', '8')]),
+  ]),
+
+  getItem('Navigation Three', 'sub4', <VideoCameraOutlined />, [
+    getItem('Option 9', '9'),
+    getItem('Option 10', '10'),
+    getItem('Option 11', '11'),
+    getItem('Option 12', '12'),
+  ]),
+];
+
+
+ 
+const LayoutMenu =(props:any)=>{
+  const { t } = useTranslation();
+  const [openKeys, setOpenKeys] =useState([])
+  const { SubMenu } = Menu;
+  const {isCollapse}= props
+  const navigateTo = useNavigate()
+  
+  const  menuClick=(e:{key:string})=>{
+    console.log("点击了",e.key)
+
+  //点击跳转到对应的路由 ，编程式导航跳转，利用到一个hook
+    navigateTo(e.key)
+
+ }
+  
+ //SubMenu 展开/关闭的回调
+  const  handleOpenChange=(keys:string[])=>{
+    console.log(`-----展开`, keys)  //['sub1','sub2']
+    setOpenKeys([keys[keys.length-1]]); //当前打开的折叠菜单项
+  }
+
+  return (
+      <Menu
+          theme="dark"
+          mode="inline"
+          defaultSelectedKeys={['4']}
+          items={items}
+          onClick={menuClick}
+          onOpenChange={handleOpenChange}
+          openKeys={openKeys}
+        /> 
+  )
+
+}
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+=====================================================================================
 
 #### 3）将本地创建好的项目与github关联
 
@@ -1797,7 +2087,11 @@ $
 
 ```
 
+
+
 注意：如果有新同学加入项目，git 操作如下：
+
+
 
 ```
 1.从远程仓库中克隆项目
@@ -1817,6 +2111,19 @@ git pull origin dev
 ```
 
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+echo "# react_admin_template" >> README.md
+git init
+git add README.md
+git commit -m "first commit"
+git branch -M main
+git remote add origin https://github.com/asd3884/react_admin_template.git
+git push -u origin main
+
+
+
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
 
 代码提交：
 git commit -m 'feat: vue3+vite搭建后台管理系统模板'
@@ -1876,6 +2183,13 @@ export const reqUserInfo = () =>
 export const reqLogout = () => request.post<any, any>(API.LOGOUT_URL)
 ```
 
+
+## 项目参考：
+GitHub：https://github.com/HalseySpicy/Hooks-Admin
+
+
+
+
 ## 四、项目的资源地址
 
 贾成豪老师代码仓库地址:https://gitee.com/jch1011/vue3_admin_template-bj1.git
@@ -1895,3 +2209,16 @@ echarts:国内镜像网站
 https://www.isqqw.com/echarts-doc/zh/option.html#title
 
 http://datav.aliyun.com/portal/school/atlas/area_selector
+
+
+
+纸飞机打开，switch为系统代理
+
+
+
+https://github.com/panyushan-jade/react-template-admin
+
+
+
+
+https://github.com/BetaSu/big-react

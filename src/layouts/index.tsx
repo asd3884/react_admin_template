@@ -4,6 +4,7 @@ import { Layout, Space, Card } from 'antd';
 import LayoutMenu from './layoutMenu/index';
 import LayoutHeader from './layoutHeader';
 import { connect } from "react-redux";
+import logo from "@/assets/images/logo.png";
 import { updateCollapse } from "@/store/modules/global/action";
 import './index.scss'
 
@@ -13,6 +14,10 @@ const LayoutIndex =(props: any)=>{
   return (
    <Layout className='layout_container'>
       <Sider trigger={null}  collapsed={isCollapse} width={220}>
+        <div className='logo'>
+          <img src={logo} alt="logo" className='logo_img'></img>
+          {!isCollapse ? <h2 className="logo-text">Hooks Admin</h2> : null}
+        </div>
         <LayoutMenu></LayoutMenu>
       </Sider>
       <Layout>

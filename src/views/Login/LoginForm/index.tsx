@@ -16,7 +16,7 @@ const LoginForm = (props: any) => {
   const navigate = useNavigate();
   const HOME_URL: string = "/home/index";
   const { setToken, setMenuList }= props
-  const  { menuList }  = useMenus();
+  const  { getMenuList }  = useMenus();
 
 	// 登录
     const onFinish = async (loginForm: loginFormData) => {
@@ -24,18 +24,14 @@ const LoginForm = (props: any) => {
     if(result.code==200 || result.code==20000){
       message.success("登录成功！")
       try {
-       /* const list= menuList()
-        console.log(`-----菜单`,list.then(res=>{
-          console.log(res,"++++++")
-        }))*/
 
-        menuList().then(res=>{
-         setMenuList(res)
+        getMenuList().then(res=>{
+          setMenuList(res)
         })
+
       } catch (error) {
         console.log(`----error`,error)
       }
-      
       setToken(result.data.token)
       navigate(HOME_URL)
     }

@@ -6,8 +6,8 @@ import './index.scss'
 import { UploadOutlined, UserOutlined, VideoCameraOutlined } from '@ant-design/icons';
 import { Layout, Menu, theme } from 'antd';
 import type { MenuProps } from 'antd';
-import { useNavigate, useLocation } from 'react-router-dom'
-
+import { useNavigate } from 'react-router-dom'
+import { setMenuList } from "@/store/modules/global/action";
 //import {menuRouter} from '@/router'
 import {rootRouter} from '@/router'
 
@@ -53,21 +53,33 @@ const items: MenuItem[] = [
   ]),
 ];  */
 
+    const mapTree= (org,index)=>{
+    console.log(`========`,index)
+    const haveChild = Array.isArray(org.children) && org.children.length>0
+    return getItem(
+      org.meta?.title, 
+      org.children[index ? index :0]?.path, 
+      <VideoCameraOutlined />,
+       haveChild && org.children.length>1 ? org.children?.map((item,index) => mapTree(item,index)):null
+      )
+    }
+
 //const items: MenuItem[]=[]
 
 const LayoutMenu =(props:any)=>{
   const { t } = useTranslation();
-  const location= useLocation()
   const [menus, setMenus]= useState<MenuItem[]>()
   const [openKeys, setOpenKeys] =useState([])
   const { SubMenu } = Menu;
-  const {isCollapse}= props
+  const {isCollapse, menuList, setMenuList}= props
   const navigateTo = useNavigate()
   
   const  menuClick=(e:{key:string})=>{
+    console.log("点击了",e.key)
+    console.log(`-----`, menus)
 
   //点击跳转到对应的路由 ，编程式导航跳转，利用到一个hook
-    navigateTo(e.key)
+   // navigateTo(e.key)
 
  }
   
@@ -77,19 +89,6 @@ const LayoutMenu =(props:any)=>{
    
   }
 
-    // 处理后台返回菜单 key 值为 antd 菜单需要的 key 值
-	const deepLoopFloat = (menuList: Menu.MenuOptions[], newArr: MenuItem[] = []) => {
-		menuList.forEach((item: Menu.MenuOptions) => {
-			// 下面判断代码解释 *** !item?.children?.length   ==>   (!item.children || item.children.length === 0)
-			if (!item?.children?.length) return newArr.push(getItem(item.meta.title, item.path,null ));
-      if(item.children.length>1)
-			newArr.push(getItem(item.meta.title, item.path, item.meta.icon, deepLoopFloat(item.children)));
-
-      if(item.children.length==1) return newArr.push(getItem(item.meta.title, item.children[0].path,item.meta.icon))
-		});
-		return newArr;
-	};
-
  /* useEffect(()=>{
     setMenus( ()=>{ return menuRouter.map(item=> mapTree(item))})
   },[])*/
@@ -98,15 +97,16 @@ const LayoutMenu =(props:any)=>{
     const menuFilter= rootRouter.filter((item)=>{
       return item.children
     })
-  
-    setMenus(deepLoopFloat(menuFilter));
+
+     console.log(`=====过滤路由==`, menuFilter)
+    setMenus( ()=>{ return menuFilter.map((item)=> mapTree(item,0))})
   },[])
 
   return (
       <Menu
           theme="dark"
           mode="inline"
-          defaultSelectedKeys={location.pathname}
+          defaultSelectedKeys={['']}
           items={menus}
           onClick={menuClick}
           onOpenChange={handleOpenChange}
@@ -129,5 +129,5 @@ const LayoutMenu =(props:any)=>{
 }
 
 const mapStateToProps = (state: any) => state.global;
-const mapDispatchToProps = { updateCollapse };
+const mapDispatchToProps = { updateCollapse,setMenuList };
 export default connect(mapStateToProps, mapDispatchToProps)(LayoutMenu);

@@ -1,10 +1,15 @@
-import { Children, useEffect } from "react";
+import { Children, useEffect, useState } from "react";
 import { Navigate, useRoutes } from "react-router-dom";
 import { RouteObject } from "@/routers/interface";
 import Login from "@/views/Login/index";
 import { connect } from "react-redux";
 import { LayoutIndex } from "@/router/constant";
 import Home from "@/views/Home/index";
+import User from "@/views/User/index"
+import Role from "@/views/Role/index"
+import { setMenuList } from "../store/modules/global/action";
+import { store } from '@/store'
+import { LaptopOutlined, UserOutlined } from '@ant-design/icons';
 
 // * 导入所有router
 const metaRouters = import.meta.globEager("./modules/*.tsx");
@@ -16,47 +21,6 @@ Object.keys(metaRouters).forEach(item => {
 		routerArray.push(...metaRouters[item][key]);
 	});
 });
-
-//console.log(`------路由`, routerArray)
-
-/**
- * 	
- *[
-	{
- * element: <LayoutIndex />,
-		meta: {
-			title: "常用组件"
-		},
-		children: [
-			{
-				path: "/assembly/guide",
-				element: lazyLoad(React.lazy(() => import("@/views/assembly/guide/index"))),
-				meta: {
-					requiresAuth: true,
-					title: "引导页",
-					key: "guide"
-				}
-			}
-    ]
-
- * }
-  ]
- * 
- */
-
-  //
-
-  const mapTree= org=>{
-    const haveChild = Array.isArray(org.children) && org.children.length>0
-    return {
-      element: org.level==2 ? <LayoutIndex />:<org.code />,
-      meta: {
-              title: org.name,
-            },
-      //path: haveChild ? `/${org.code}/index`: undefined,
-      children: haveChild ? org.children.map(item => mapTree(item)):[]
-    }
-  }
 
 export const rootRouter: RouteObject[] = [
 	{
@@ -75,7 +39,8 @@ export const rootRouter: RouteObject[] = [
   {
     element: <LayoutIndex />,
     meta: {
-			title: "首页"
+			title: "首页",
+      icon:<LaptopOutlined/>
 		},
 		children: [
 			{
@@ -90,8 +55,39 @@ export const rootRouter: RouteObject[] = [
 			}
 		]
   },
+
+  {
+    element: <LayoutIndex />,
+    meta: {
+			title: "用户管理",
+      icon:<UserOutlined/>
+		},
+		children: [
+			{
+				path: "/user/index",
+				// element: lazyLoad(React.lazy(() => import("@/views/home/index"))),
+				element: <User />,
+				meta: {
+					requiresAuth: true,
+					title: "用户管理",
+					key: "user",
+
+				}
+			},
+      {
+				path: "/role/index",
+				// element: lazyLoad(React.lazy(() => import("@/views/home/index"))),
+				element: <Role />,
+				meta: {
+					requiresAuth: true,
+					title: "角色管理",
+					key: "role"
+				}
+			}
+		]
+  },
 	//...routerArray,
-  //...menuArray,
+
 	{
 		path: "*",
 		element: <Navigate to="/404" />
@@ -100,21 +96,14 @@ export const rootRouter: RouteObject[] = [
 
 //使用useRoutes方法传入routesList生成Routes组件，配置路由表
 const Router = (props:any) => {
-  const {menuList}=props
-  const menuArray:RouteObject[] = menuList.map(item=> mapTree(item))
+  const {menuList, setMenuList}=props
+ 
+	const routes = useRoutes(rootRouter);
   
-  //const newRouter= Object.assign( rootRouter, menuArray) 
-  //rootRouter.push(...menuArray)
-  const newRouter: RouteObject[] = [...menuArray, ...rootRouter]
-  console.log(`----`, newRouter)
-
-	const routes = useRoutes(newRouter);
-  
-  //Object.assign(routes, menuList) 
-
 	return routes;
 };
 
 //export default Router;
 const mapStateToProps = (state: any) => state.global;
-export default connect(mapStateToProps)(Router);
+const mapDispatchToProps = { setMenuList };
+export default connect(mapStateToProps, mapDispatchToProps)(Router);
